@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Log Monitor</title>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+	<div id='logs'></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+
+		function executeQuery() {
+		  $.ajax({
+		  	type: 'GET',
+		    url: 'logs',
+		    success: function(d) {
+		      var data = JSON.parse(d);
+		      for (var i = 0; i < data.length; i++){
+		      	var newNode = document.createElement('div');      
+				newNode.innerHTML = data[i][0] + " - " + data[i][2] + " - " + data[i][1] + " - "+ data[i][3];
+				if (data[i][2] == 'ERROR'){
+					newNode.setAttribute("style", "color:red;");
+				}
+				else {
+					newNode.setAttribute("style", "color:lightgreen;");
+				}
+				theDiv = document.getElementById('logs');
+				theDiv.appendChild( newNode );
+		      }
+		    }
+		  });
+		  setTimeout(executeQuery, 5000); 
+		}
+
+		$(document).ready(function() {
+		  setTimeout(executeQuery, 5000);
+		});
+	</script>
+	</body>
+</html>
